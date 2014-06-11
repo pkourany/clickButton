@@ -50,6 +50,7 @@ NOTE!
 */
 
 // -------- clickButton.h --------
+#include "application.h"
 
 #define CLICKBTN_PULLUP HIGH
 
