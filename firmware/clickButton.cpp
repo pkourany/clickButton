@@ -102,7 +102,7 @@ ClickButton::ClickButton(uint8_t buttonPin, boolean activeType, boolean internal
   if (_activeHigh == LOW && internalPullup == CLICKBTN_PULLUP)
     pinMode(_pin, INPUT_PULLUP);
   else
-    pinMode(_pin, INPUT);
+    pinMode(_pin, INPUT_PULLDOWN);
 }
 
 
