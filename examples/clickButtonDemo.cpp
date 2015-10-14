@@ -1,16 +1,13 @@
-
 /* ClickButton library demo
 
   OUtput a message on Serial according to different clicks on one button.
   
   Short clicks:
-
     Single click - 
     Double click - 
     Triple click - 
     
   Long clicks (hold button for one second or longer on last click):
-    
     Single-click - 
     Double-click - 
     Triple-click - 
@@ -21,14 +18,12 @@
 */
 #include "clickButton.h"
 
-
 // the Button
 const int buttonPin1 = 4;
 ClickButton button1(buttonPin1, LOW, CLICKBTN_PULLUP);
 
 // Button results 
 int function = 0;
-
 
 void setup()
 {
@@ -41,7 +36,6 @@ void setup()
   button1.multiclickTime = 250;  // Time limit for multi clicks
   button1.longClickTime  = 1000; // time until "held-down clicks" register
 }
-
 
 void loop()
 {

@@ -50,9 +50,10 @@ NOTE!
 */
 
 // -------- clickButton.h --------
-#include "application.h"
+#include "Arduino.h"
 
 #define CLICKBTN_PULLUP HIGH
+#define INPUT_PULLDOWN INPUT
 
 class ClickButton
 {

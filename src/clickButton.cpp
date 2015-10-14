@@ -49,10 +49,9 @@ NOTE!
  2010.06.15 - First version. Basically just a small OOP programming exercise.
 */
 
-#include "clickButton.h"
+#include "ClickButton.h"
 
-ClickButton::ClickButton(uint8_t buttonPin)
-{
+ClickButton::ClickButton(uint8_t buttonPin){
   _pin           = buttonPin;
   _activeHigh    = LOW;           // Assume active-low button
   _btnState      = !_activeHigh;  // initial button state in active-high logic
@@ -68,8 +67,7 @@ ClickButton::ClickButton(uint8_t buttonPin)
 }
 
 
-ClickButton::ClickButton(uint8_t buttonPin, boolean activeType)
-{
+ClickButton::ClickButton(uint8_t buttonPin, boolean activeType){
   _pin           = buttonPin;
   _activeHigh    = activeType;
   _btnState      = !_activeHigh;  // initial button state in active-high logic
@@ -84,8 +82,7 @@ ClickButton::ClickButton(uint8_t buttonPin, boolean activeType)
   pinMode(_pin, INPUT);
 }
 
-ClickButton::ClickButton(uint8_t buttonPin, boolean activeType, boolean internalPullup)
-{
+ClickButton::ClickButton(uint8_t buttonPin, boolean activeType, boolean internalPullup){
   _pin           = buttonPin;
   _activeHigh    = activeType;
   _btnState      = !_activeHigh;  // initial button state in active-high logic
@@ -105,9 +102,7 @@ ClickButton::ClickButton(uint8_t buttonPin, boolean activeType, boolean internal
     pinMode(_pin, INPUT_PULLDOWN);
 }
 
-
-
-void ClickButton::Update()
+void ClickButton::Update(void)
 {
   long now = (long)millis();      // get current time
   _btnState = digitalRead(_pin);  // current appearant button state
@@ -144,4 +139,3 @@ void ClickButton::Update()
 
   _lastState = _btnState;
 }
-
