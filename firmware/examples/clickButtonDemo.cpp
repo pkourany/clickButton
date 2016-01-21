@@ -19,7 +19,7 @@
  
  GNU GPLv3 license
 */
-#include "clickButton.h"
+#include "clickButton/clickButton.h"
 
 
 // the Button
