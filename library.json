@@ -1,0 +1,14 @@
+{
+  "name": "clickButton",
+  "keywords": "button, switch, press",
+  "description": "A library that decodes multiple clicks on one button. Also copes with long clicks and click-and-hold.",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/pkourany/clickButton.git"
+  },
+  "src": "firmware",
+  "examples": "examples/*.cpp",
+  "frameworks": "arduino",
+  "platforms": "*"
+}
