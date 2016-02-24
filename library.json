@@ -8,7 +8,7 @@
     "url": "https://github.com/pkourany/clickButton.git"
   },
   "include": "firmware",
-  "examples": "examples/*.cpp",
+  "examples": "firmware/examples/*.cpp",
   "frameworks": "arduino",
   "platforms": "*"
 }
