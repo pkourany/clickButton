@@ -49,9 +49,9 @@ void loop()
   button1.Update();
 
   // Save click codes in LEDfunction, as click codes are reset at next Update()
-  if (button1.clicks != 0) function = button1.clicks;
+  if(button1.clicks != 0) function = button1.clicks;
   
-  if(button1.clicks == 1) Serial.println("SINGLE click");
+  if(function == 1) Serial.println("SINGLE click");
 
   if(function == 2) Serial.println("DOUBLE click");
 
