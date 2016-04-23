@@ -7,7 +7,7 @@ long clicks and click-and-hold.
 Usage:
 -------
 
-```
+```cpp
 ClickButton buttonObject(pin [LOW/HIGH, [CLICKBTN_PULLUP]]);
 ```
 
@@ -17,8 +17,8 @@ CLICKBTN_PULLUP is only possible with active low buttons.
 Returned click counts:
 ----------------------
 
-   A positive number denotes the number of (short) clicks after a released button
-   A negative number denotes the number of "long" clicks
+- A positive number denotes the number of (short) clicks after a released button.
+- A negative number denotes the number of "long" clicks.
 
 Set a release callback:
 -----------------------
