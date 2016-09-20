@@ -12,6 +12,7 @@
 
    A positive number denotes the number of (short) clicks after a released button
    A negative number denotes the number of "long" clicks
+   A positive number (100 + number of clicks) denotes when a button was released
  
 NOTE!
  This is the OPPOSITE/negative of click codes from the last pre-2013 versions!
@@ -53,6 +54,7 @@ NOTE!
 #include "application.h"
 
 #define CLICKBTN_PULLUP HIGH
+#define CLICKBTN_PULLDOWN LOW
 
 class ClickButton
 {
@@ -60,6 +62,7 @@ class ClickButton
     ClickButton(uint8_t buttonPin);
     ClickButton(uint8_t buttonPin, boolean active);
     ClickButton(uint8_t buttonPin, boolean active, boolean internalPullup);
+    ClickButton(uint8_t buttonPin, boolean active, boolean internalPullup, boolean reportRelease);
     void Update();
     int clicks;                   // button click counts to return
     boolean depressed;            // the currently debounced button (press) state (presumably it is not sad :)
@@ -69,9 +72,12 @@ class ClickButton
   private:
     uint8_t _pin;                 // Arduino pin connected to the button
     boolean _activeHigh;          // Type of button: Active-low = 0 or active-high = 1
+    boolean _reportRelease;
     boolean _btnState;            // Current appearant button state
     boolean _lastState;           // previous button reading
+    boolean _clickNHold;
     int _clickCount;              // Number of button clicks within multiclickTime milliseconds
+    int _lastClickCount;
     long _lastBounceTime;         // the last time the button input pin was toggled, due to noise or a press
 };
 
