@@ -12,6 +12,7 @@
 
    A positive number denotes the number of (short) clicks after a released button
    A negative number denotes the number of "long" clicks
+   A positive number (100 + number of clicks) denotes that the button was released
  
 NOTE!
  This is the OPPOSITE/negative of click codes from the last pre-2013 versions!
@@ -49,15 +50,18 @@ NOTE!
  2010.06.15 - First version. Basically just a small OOP programming exercise.
 */
 
-#include "clickButton.h"
+#include "clicklibrary2.h"
 
 ClickButton::ClickButton(uint8_t buttonPin)
 {
   _pin           = buttonPin;
   _activeHigh    = LOW;           // Assume active-low button
+  _reportRelease = false;
   _btnState      = !_activeHigh;  // initial button state in active-high logic
   _lastState     = _btnState;
+  _clickNHold    = false;
   _clickCount    = 0;
+  _lastClickCount = 0;
   clicks         = 0;
   depressed      = false;
   _lastBounceTime= 0;
@@ -67,14 +71,16 @@ ClickButton::ClickButton(uint8_t buttonPin)
   pinMode(_pin, INPUT);
 }
 
-
 ClickButton::ClickButton(uint8_t buttonPin, boolean activeType)
 {
   _pin           = buttonPin;
   _activeHigh    = activeType;
+  _reportRelease = false;
   _btnState      = !_activeHigh;  // initial button state in active-high logic
   _lastState     = _btnState;
+  _clickNHold    = false;
   _clickCount    = 0;
+  _lastClickCount = 0;
   clicks         = 0;
   depressed      = 0;
   _lastBounceTime= 0;
@@ -88,9 +94,37 @@ ClickButton::ClickButton(uint8_t buttonPin, boolean activeType, boolean internal
 {
   _pin           = buttonPin;
   _activeHigh    = activeType;
+  _reportRelease = false;
   _btnState      = !_activeHigh;  // initial button state in active-high logic
   _lastState     = _btnState;
+  _clickNHold    = false;
   _clickCount    = 0;
+  _lastClickCount = 0;
+  clicks         = 0;
+  depressed      = 0;
+  _lastBounceTime= 0;
+  debounceTime   = 20;            // Debounce timer in ms
+  multiclickTime = 250;           // Time limit for multi clicks
+  longClickTime  = 1000;          // time until "long" click register
+
+  // Turn on internal pullup resistor if applicable
+  if (_activeHigh == LOW && internalPullup == CLICKBTN_PULLUP)
+    pinMode(_pin, INPUT_PULLUP);
+  else
+    pinMode(_pin, INPUT_PULLDOWN);
+}
+
+
+ClickButton::ClickButton(uint8_t buttonPin, boolean activeType, boolean internalPullup, boolean reportRelease)
+{
+  _pin           = buttonPin;
+  _activeHigh    = activeType;
+  _reportRelease = reportRelease;
+  _btnState      = !_activeHigh;  // initial button state in active-high logic
+  _lastState     = _btnState;
+  _clickNHold    = false;
+  _clickCount    = 0;
+  _lastClickCount = 0;
   clicks         = 0;
   depressed      = 0;
   _lastBounceTime= 0;
@@ -129,16 +163,31 @@ void ClickButton::Update()
   // If the button released state is stable, report nr of clicks and start new cycle
   if (!depressed && (now - _lastBounceTime) > multiclickTime)
   {
-    // positive count for released buttons
-    clicks = _clickCount;
-    _clickCount = 0;
+    
+    if (_clickNHold){
+        clicks = 100 + _lastClickCount;
+        _clickCount = 0;
+        _lastClickCount = 0;
+        _clickNHold = false;
+    } 
+    else{
+        // positive count for released buttons
+        clicks = _clickCount;
+        _clickCount = 0;
+        _lastClickCount = 0;
+    }
   }
-
   // Check for "long click"
   if (depressed && (now - _lastBounceTime > longClickTime))
   {
+    if(_reportRelease){
+        _clickNHold    = true;
+    }
     // negative count for long clicks
     clicks = 0 - _clickCount;
+    if(_lastClickCount == 0){
+        _lastClickCount = _clickCount;
+    }
     _clickCount = 0;
   }
 
