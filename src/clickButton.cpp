@@ -98,11 +98,22 @@ ClickButton::ClickButton(uint8_t buttonPin, boolean activeType, boolean internal
   multiclickTime = 250;           // Time limit for multi clicks
   longClickTime  = 1000;          // time until "long" click register
 
+// Particle devices
+#if defined PLATFORM_ID
   // Turn on internal pullup resistor if applicable
   if (_activeHigh == LOW && internalPullup == CLICKBTN_PULLUP)
     pinMode(_pin, INPUT_PULLUP);
   else
     pinMode(_pin, INPUT_PULLDOWN);
+// Raspberry Pi
+#else
+  pinMode(_pin, INPUT);
+  // Turn on internal pullup resistor if applicable
+  if (_activeHigh == LOW && internalPullup == CLICKBTN_PULLUP)
+    pullUpDnControl(_pin, PUD_UP);
+  else
+    pullUpDnControl(_pin, PUD_DOWN);
+#endif
 }
 
 
@@ -144,4 +155,3 @@ void ClickButton::Update()
 
   _lastState = _btnState;
 }
-
