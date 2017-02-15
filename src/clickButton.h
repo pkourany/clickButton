@@ -50,7 +50,19 @@ NOTE!
 */
 
 // -------- clickButton.h --------
-#include "Particle.h"
+
+// Particle devices
+#if defined PLATFORM_ID
+  #include "Particle.h"
+// Raspberry Pi
+#else
+  // for uint8_t
+  #include "stdint.h"
+  // for GPIO functionality
+  #include <wiringPi.h>
+
+  typedef uint8_t boolean;
+#endif
 
 #define CLICKBTN_PULLUP HIGH
 
