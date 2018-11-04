@@ -1,18 +1,18 @@
 /*    ClickButton
- 
+
  A library that decodes multiple clicks on one button.
  Also copes with long clicks and click-and-hold.
- 
+
  Usage: ClickButton buttonObject(pin [LOW/HIGH, [CLICKBTN_PULLUP]]);
- 
+
   where LOW/HIGH denotes active LOW or HIGH button (default is LOW)
   CLICKBTN_PULLUP is only possible with active low buttons.
- 
+
  Returned click counts:
 
    A positive number denotes the number of (short) clicks after a released button
    A negative number denotes the number of "long" clicks
- 
+
 NOTE!
  This is the OPPOSITE/negative of click codes from the last pre-2013 versions!
  (this seemed more logical and simpler, so I finally changed it)
@@ -22,17 +22,17 @@ NOTE!
  Copyright (C) 2010,2012, 2013 raron
 
  GNU GPLv3 license
- 
+
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -57,6 +57,7 @@ NOTE!
 class ClickButton
 {
   public:
+    ClickButton(bool (*readFunc)(uint8_t), uint8_t pin, bool activeType, uint8_t minTimeBetweenReads);
     ClickButton(uint8_t buttonPin);
     ClickButton(uint8_t buttonPin, boolean active);
     ClickButton(uint8_t buttonPin, boolean active, boolean internalPullup);
@@ -73,6 +74,9 @@ class ClickButton
     boolean _lastState;           // previous button reading
     int _clickCount;              // Number of button clicks within multiclickTime milliseconds
     long _lastBounceTime;         // the last time the button input pin was toggled, due to noise or a press
+    bool (*_readFunction)(uint8_t) = NULL; // read function, must have single paramter uint8_t and return bool
+    uint8_t _minTimeBetweenReads = 0;
+    uint32_t _lastRead;
 };
 
 // -------- end clickButton.h --------
