@@ -51,7 +51,7 @@ NOTE!
 
 #include "clickButton.h"
 
-ClickButton::ClickButton(bool (*readFunc)(uint8_t), uint8_t pin, bool activeType, uint8_t minTimeBetweenReads){
+ClickButton::ClickButton(bool (*readFunc)(uint8_t), uint8_t pin, bool activeType){
   _pin           = pin;
   _activeHigh    = activeType;           // Assume active-low button
   _btnState      = !_activeHigh;  // initial button state in active-high logic
@@ -63,8 +63,6 @@ ClickButton::ClickButton(bool (*readFunc)(uint8_t), uint8_t pin, bool activeType
   debounceTime   = 20;            // Debounce timer in ms
   multiclickTime = 250;           // Time limit for multi clicks
   longClickTime  = 1000;          // time until long clicks register
-
-  _minTimeBetweenReads = minTimeBetweenReads;
   _readFunction = readFunc;
 }
 
@@ -129,11 +127,8 @@ void ClickButton::Update()
   long now = (long)millis();      // get current time
   bool didRead = false;
   if(_readFunction){
-    if(now - _lastRead > _minTimeBetweenReads){
-      _lastRead = now;
       _btnState = _readFunction(_pin);
       didRead = true;
-    }
   } else {
     _btnState = pinReadFast(_pin);  // current appearant button state
     didRead = true;

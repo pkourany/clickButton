@@ -57,7 +57,7 @@ NOTE!
 class ClickButton
 {
   public:
-    ClickButton(bool (*readFunc)(uint8_t), uint8_t pin, bool activeType, uint8_t minTimeBetweenReads);
+    ClickButton(bool (*readFunc)(uint8_t), uint8_t pin, bool activeType);
     ClickButton(uint8_t buttonPin);
     ClickButton(uint8_t buttonPin, boolean active);
     ClickButton(uint8_t buttonPin, boolean active, boolean internalPullup);
@@ -75,7 +75,6 @@ class ClickButton
     int _clickCount;              // Number of button clicks within multiclickTime milliseconds
     long _lastBounceTime;         // the last time the button input pin was toggled, due to noise or a press
     bool (*_readFunction)(uint8_t) = NULL; // read function, must have single paramter uint8_t and return bool
-    uint8_t _minTimeBetweenReads = 0;
     uint32_t _lastRead;
 };
 
